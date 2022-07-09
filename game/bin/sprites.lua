@@ -74,4 +74,12 @@ sprites.new = oop.new
 		lg.draw(self.sprite[frame], math.floor(x), math.floor(y - self.offy), 0, scalex, 1, self.offx)
 	end
 
+	function c:draws(x, y, r, g, b)
+		if r then
+			lg.setColor(r, g, b)
+		end
+		lg.rectangle("fill", x, y, self.width, self.height)
+		lg.setColor(1, 1, 1)
+	end
+
 sprites.load()

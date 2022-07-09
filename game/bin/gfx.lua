@@ -5,8 +5,8 @@ function gfx.init(dim)
 	lg.setLineStyle("rough")
 
 	gfx.res = {
-		x = 800,
-		y = 800,
+		x = 200,
+		y = 200,
 	}
 
 	gfx.def = {
@@ -60,7 +60,8 @@ end
 
 function gfx.clear()
 	lg.setCanvas(gfx.pre_canvas)
-	lg.clear(colors.palette[1][1],colors.palette[1][2],colors.palette[1][3],1)
+	lg.clear(0.1,0.1,0.15,1)
+	--lg.clear(colors.palette[1][1],colors.palette[1][2],colors.palette[1][3],1)
 end
 
 function gfx.draw()
