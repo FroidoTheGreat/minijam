@@ -8,11 +8,16 @@ require("bin/state")
 require("bin/game")
 require("bin/sprites")
 require("bin/animations")
+require("bin/tmaps")
+require("bin/physics")
+require("bin/player")
+require("bin/keys")
 
 function love.load()
 	state:set(game)
 
 	gfx.init()
+	keys:load("w", "s", "a", "d")
 end
 
 function love.update()

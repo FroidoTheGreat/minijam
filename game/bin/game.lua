@@ -6,13 +6,13 @@ oopify(game)
 	local c = game.class
 
 	function c:load(opt)
-		self.s = sprites:new("d")
+		self.player = players:new(0, 0)
 	end
 
 	function c:update()
-
+		self.player:update()
 	end
 
 	function c:draw()
-		self.s:draws(100, 100, 0.5, 0.5, 1)
+		self.player:draw()
 	end
