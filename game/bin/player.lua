@@ -15,7 +15,7 @@ oopify(players)
 		self.x = 0
 		self.y = 0
 
-		self.speed = 3
+		self.speed = 2
 
 		self:add(physics, {
 			friction = 0.7
@@ -23,14 +23,15 @@ oopify(players)
 	end
 
 	function c:update()
+		local sq2 = 1.41421
 		if keys:right() and keys:up() then
-			self:add_force(self.speed, -self.speed)
+			self:add_force(self.speed / sq2, -self.speed / sq2)
 		elseif keys:right() and keys:down() then
-			self:add_force(self.speed, self.speed)
+			self:add_force(self.speed / sq2, self.speed / sq2)
 		elseif keys:left() and keys:up() then
-			self:add_force(-self.speed, -self.speed)
+			self:add_force(-self.speed / sq2, -self.speed / sq2)
 		elseif keys:left() and keys:down() then
-			self:add_force(-self.speed, self.speed)
+			self:add_force(-self.speed / sq2, self.speed / sq2)
 		elseif keys:right() then
 			self:add_force(self.speed, 0)
 		elseif keys:left() then
