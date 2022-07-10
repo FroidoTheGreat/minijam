@@ -100,11 +100,18 @@ end
 						local t = layer[x][y]
 						local ptx = state.state.player.last_tx
 						local pty = state.state.player.last_ty
+						local pcx = state.state.player.col_t_x
+						local pcy = state.state.player.col_t_y
 						self.tmap:draw(layer[x][y], x_ + (x-1)*self.tmap.twidth, y_ + (y-1)*self.tmap.theight)
 						if maps:is_solid(t) or
 							x == ptx and y==pty then
 							lg.setColor(1,0,1,0.5)
-							lg.rectangle("fill", x_ + (x-1)*self.tmap.twidth, y_ + (y-1)*self.tmap.theight, 16, 16)
+							--lg.rectangle("fill", x_ + (x-1)*self.tmap.twidth, y_ + (y-1)*self.tmap.theight, 16, 16)
+							lg.setColor(1,1,1,1)
+						end
+						if x == pcx and y==pcy then
+							lg.setColor(0,1,1,0.5)
+							--lg.rectangle("fill", x_ + (x-1)*self.tmap.twidth, y_ + (y-1)*self.tmap.theight, 16, 16)
 							lg.setColor(1,1,1,1)
 						end
 					end

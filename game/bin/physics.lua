@@ -15,39 +15,53 @@ oopify(physics)
 			self.collides = true
 			self.col_off_y = opt.col_off_y or 0
 		end
+
+		self.col_t_x = 2
+		self.col_t_y = 0
 	end
 
 	function c:update_phys()
 		self.vx = self.vx * self.friction
 		self.vy = self.vy * self.friction
 
-		local tile, cx, cy = state.state.map:pos_get(1, self.x + self.vx, self.y + self.vy)
+		local tile, cx, cy = state.state.map:pos_get(1, self.x + self.vx, self.y)
 
 		if not self.last_tx then
 			self.last_tx = cx
 			self.last_ty = cy
 			self.x = self.x + self.vx
 			self.y = self.y + self.vy
-		elseif maps:is_solid(tile) then
+		end
+		if maps:is_solid(tile) then
+			self.col_t_x = cx
+			self.col_t_y = cy
 			if cx < self.last_tx then
 				self.vx = 0
 				self.x = cx * state.state.map.tmap.twidth + 1
 			elseif cx > self.last_tx then
 				self.vx = 0
-				self.x = self.last_tx * state.state.map.tmap.twidth
+				self.x = self.last_tx * state.state.map.tmap.twidth - 0.1
 			end
+		else
+			self.last_tx = cx
+
+			self.x = self.x + self.vx
+		end
+
+		tile, cx, cy = state.state.map:pos_get(1, self.x, self.y + self.vy)
+		if maps:is_solid(tile) then
+			self.col_t_x = cx
+			self.col_t_y = cy
 			if cy < self.last_ty then
 				self.vy = 0
 				self.y = cy * state.state.map.tmap.twidth + 1
 			elseif cy > self.last_ty then
 				self.vy = 0
-				self.y = self.last_ty * state.state.map.tmap.height
+				self.y = self.last_ty * state.state.map.tmap.twidth - 0.1
 			end
 		else
-			self.last_tx = last_tx
-			self.last_ty = last_ty
+			self.last_ty = cy
 
-			self.x = self.x + self.vx
 			self.y = self.y + self.vy
 		end
 	end
