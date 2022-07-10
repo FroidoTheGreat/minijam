@@ -26,4 +26,6 @@ oopify(game)
 		self.map:draw(1, 0, 200)
 
 		self.player:draw()
+
+		camera:undraw()
 	end

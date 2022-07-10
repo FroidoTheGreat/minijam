@@ -6,19 +6,22 @@ oopify(players)
 	local c = players.class
 
 	function c:load()
-		self.sprite = spritemans:new(6, {
+		self.sprite = spritemans:new(8, {
 			center_x = 0.5,
-			center_y = 0.5
+			center_y = 0.9
 		})
 		self.sprite:new("player idle", "idle", "idle")
 
 		self.x = 0
 		self.y = 0
+		self.z = 8
 
-		self.speed = 1.5
+		self.float_timer = 0
+
+		self.speed = 1
 
 		self:add(physics, {
-			friction = 0.7
+			friction = 0.75
 		})
 	end
 
@@ -45,8 +48,14 @@ oopify(players)
 		self:update_phys()
 
 		self.sprite:update()
+		self.float_timer = self.float_timer + 0.05
 	end
 
 	function c:draw()
-		self.sprite:draw(self.x, self.y)
+		local z = self.z + math.cos(self.float_timer)*2
+		lg.setColor(0, 0, 0, 0.2)
+		local shadow_multi = 1
+		lg.ellipse("fill", self.x, self.y, 8 * shadow_multi, 4 * shadow_multi)
+		lg.setColor(1, 1, 1, 1)
+		self.sprite:draw(self.x, self.y - z)
 	end

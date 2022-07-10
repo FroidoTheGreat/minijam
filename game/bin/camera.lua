@@ -3,7 +3,7 @@ camera = {}
 function camera:load()
 	self.x = 0
 	self.y = 0
-	self.speed = 7
+	self.speed = 9
 	self.target = self
 
 	self.drawn = false
