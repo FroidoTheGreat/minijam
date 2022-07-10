@@ -1,5 +1,7 @@
 sprites = {}
 
+local f = lg.newImage("sprites/ui/bar/1.png")
+
 -- loading all the sprites
 function sprites.load(folder, loc)
 	if not folder then
@@ -10,10 +12,11 @@ function sprites.load(folder, loc)
 	all = lf.getDirectoryItems(folder)
 
 	if #all == 0 then
+		print(folder)
 		return nil
 	elseif #all[1] >= 4 and string.sub(all[1], #all[1] - 3, #all[1]) == ".png" then
 		for i, f_name in ipairs(all) do -- look through folder
-			print(folder, f_name, num)
+			--print(folder, f_name, num)
 			local img = lg.newImage(folder.."/"..f_name)
 			local num = tonumber(string.sub(f_name, 1, #f_name - 4))
 			
