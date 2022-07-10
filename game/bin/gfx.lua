@@ -60,8 +60,7 @@ end
 
 function gfx.clear()
 	lg.setCanvas(gfx.pre_canvas)
-	lg.clear(0.1,0.1,0.15,1)
-	--lg.clear(colors.palette[1][1],colors.palette[1][2],colors.palette[1][3],1)
+	lg.clear(colors.palette[1][1],colors.palette[1][2],colors.palette[1][3],1)
 end
 
 function gfx.draw()

@@ -3,6 +3,7 @@ lg = love.graphics
 require("bin/oop")
 serpent = require("bin/serpent")
 require("bin/settings")
+require("bin/colors")
 require("bin/gfx")
 require("bin/state")
 require("bin/game")
@@ -18,6 +19,8 @@ require("bin/player")
 require("bin/keys")
 require("bin/camera")
 require("bin/pro")
+
+math.randomseed(os.time())
 
 function love.load()
 	state:set(game)

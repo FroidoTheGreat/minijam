@@ -69,7 +69,7 @@ players.pros = require("bin/objects/player/pro")
 
 	function c:draw()
 		local z = self.z + math.cos(self.float_timer)*2
-		lg.setColor(0, 0, 0, 0.2)
+		colors.set(1, 0.2)
 		local shadow_multi = 1
 		lg.ellipse("fill", self.x, self.y, 8 * shadow_multi, 4 * shadow_multi)
 		lg.setColor(1, 1, 1, 1)

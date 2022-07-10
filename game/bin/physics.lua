@@ -37,7 +37,7 @@ oopify(physics)
 			self.col_t_y = cy
 			if cx < self.last_tx then
 				self.vx = 0
-				self.x = cx * state.state.map.tmap.twidth + 1
+				self.x = cx * state.state.map.tmap.twidth + 0.1
 			elseif cx > self.last_tx then
 				self.vx = 0
 				self.x = self.last_tx * state.state.map.tmap.twidth - 0.1
@@ -54,7 +54,7 @@ oopify(physics)
 			self.col_t_y = cy
 			if cy < self.last_ty then
 				self.vy = 0
-				self.y = cy * state.state.map.tmap.twidth + 1
+				self.y = cy * state.state.map.tmap.twidth + 0.1
 			elseif cy > self.last_ty then
 				self.vy = 0
 				self.y = self.last_ty * state.state.map.tmap.twidth - 0.1

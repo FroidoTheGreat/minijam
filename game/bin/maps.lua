@@ -89,31 +89,17 @@ end
 
 	function c:draw(l, x_, y_)
 		local layer = self.map[l]
-		local i = 0
-		local i2 = 0
-		for x = self.startx, self.startx + self.width do
-			i2 = i2 + 1
+
+		local startx = math.floor((camera.x) / 16) + 1
+		local width = math.floor(gfx.res.x / 16) + 1
+		local starty = math.floor((camera.x) / 16) + 1
+		local height = math.floor(gfx.res.x / 16) + 1
+		for x = startx, startx + width do
 			if layer[x] then
 				for y = self.starty, self.starty + self.height do
 					if layer[x][y] then
-						i = i + 1
 						local t = layer[x][y]
-						local ptx = state.state.player.last_tx
-						local pty = state.state.player.last_ty
-						local pcx = state.state.player.col_t_x
-						local pcy = state.state.player.col_t_y
 						self.tmap:draw(layer[x][y], x_ + (x-1)*self.tmap.twidth, y_ + (y-1)*self.tmap.theight)
-						if maps:is_solid(t) or
-							x == ptx and y==pty then
-							lg.setColor(1,0,1,0.5)
-							--lg.rectangle("fill", x_ + (x-1)*self.tmap.twidth, y_ + (y-1)*self.tmap.theight, 16, 16)
-							lg.setColor(1,1,1,1)
-						end
-						if x == pcx and y==pcy then
-							lg.setColor(0,1,1,0.5)
-							--lg.rectangle("fill", x_ + (x-1)*self.tmap.twidth, y_ + (y-1)*self.tmap.theight, 16, 16)
-							lg.setColor(1,1,1,1)
-						end
 					end
 				end
 			end
@@ -138,7 +124,7 @@ end
 				y=cy,
 			}
 		end
-		self.map[1][x][y] = {
+		self.map[l][x][y] = {
 			x = tile.x,
 			y = tile.y
 		}
