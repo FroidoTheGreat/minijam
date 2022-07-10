@@ -1,10 +1,12 @@
 mouse = {}
 mouse.x = 0
 mouse.y = 0
-mouse.sprite = sprites:new("default", {
-	center_x = 0,
-	center_y = 0,
+mouse.sprite = sprites:new("player cursor", {
+	center_x = 0.5,
+	center_y = 0.5,
 })
+
+love.mouse.setVisible(false)
 
 function mouse:draw()
 	self.sprite:draw(1, self.x, self.y)
