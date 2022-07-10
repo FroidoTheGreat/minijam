@@ -13,9 +13,9 @@ function sprites.load(folder, loc)
 		return nil
 	elseif #all[1] >= 4 and string.sub(all[1], #all[1] - 3, #all[1]) == ".png" then
 		for i, f_name in ipairs(all) do -- look through folder
-			print(folder, f_name)
 			local img = lg.newImage(folder.."/"..f_name)
 			local num = tonumber(string.sub(f_name, 1, #f_name - 4))
+			print(folder, f_name, num)
 			loc[num] = img
 		end
 	else
