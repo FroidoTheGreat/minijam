@@ -6,7 +6,7 @@ oopify(obj)
 	local c = obj.class
 
 	function c:load()
-		self.sprite = sprites:new("ui bars", {
+		self.sprite = sprites:new("ui bar", {
 			center_x = 0.5,
 			center_y = 0.5,
 		})
