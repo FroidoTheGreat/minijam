@@ -92,7 +92,6 @@ oopify(maps)
 			end
 			local cy = math.floor(tile / self.tmap.width)
 			local cx = tile - cy * self.tmap.width
-			print(tile, cx, cy)
 			tile = {
 				x=cx,
 				y=cy,

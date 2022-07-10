@@ -15,6 +15,7 @@ require("bin/maps")
 require("bin/physics")
 require("bin/player")
 require("bin/keys")
+require("bin/camera")
 
 function love.load()
 	state:set(game)

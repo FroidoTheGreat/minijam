@@ -59,7 +59,7 @@ spritemans.new = oop.new
 	end
 
 	function c:update(dt)
-		self.time = self.time + main.dt
+		self.time = self.time + 1
 		if self.time > self.timeout then
 			self.time = self.time - self.timeout
 			self:inc_frame()
