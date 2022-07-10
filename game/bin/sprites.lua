@@ -70,9 +70,16 @@ sprites.new = oop.new
 		self.flip = false
 	end
 
-	function c:draw(frame, x, y, flip)
+	function c:draw(frame, x, y, flip, r)
 		local scalex = 1 if flip then scalex = -1 end
-		lg.draw(self.sprite[frame], math.floor(x), math.floor(y - self.offy), 0, scalex, 1, self.offx)
+		lg.draw(self.sprite[frame],
+			math.floor(x),
+			math.floor(y),
+			r or 0,
+			scalex, 1,
+			math.floor(self.offx),
+			math.floor(self.offy)
+			)
 	end
 
 	function c:draws(x, y, r, g, b)

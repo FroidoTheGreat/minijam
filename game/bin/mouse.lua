@@ -1,7 +1,7 @@
 mouse = {}
 mouse.x = 0
 mouse.y = 0
-mouse.sprite = sprites:new("player cursor", {
+mouse.sprite = sprites:new("cursor", {
 	center_x = 0.5,
 	center_y = 0.5,
 })
@@ -14,6 +14,14 @@ end
 
 function mouse:click()
 	return love.mouse.isDown(1)
+end
+
+function mouse:getx()
+	return self.x + camera.x
+end
+
+function mouse:gety()
+	return self.y + camera.y
 end
 
 function love.mousemoved(x, y, dx, dy)

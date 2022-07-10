@@ -1,5 +1,6 @@
 players = {}
 oopify(players)
+players.pros = require("bin/objects/player/pro")
 
 --class
 	players.class = {}
@@ -16,12 +17,18 @@ oopify(players)
 		self.y = 0
 		self.z = 8
 
+		self.str = 1
+
+		self.can_shoot = true
+
 		self.float_timer = 0
 
 		self.speed = 1
 
 		self:add(physics, {
-			friction = 0.75
+			friction = 0.75,
+			col = true,
+			col_off_y = -10,
 		})
 	end
 
@@ -43,6 +50,15 @@ oopify(players)
 			self:add_force(0, -self.speed)
 		elseif keys:down() then
 			self:add_force(0, self.speed)
+		end
+
+		if mouse:click() then
+			if self.can_shoot then
+				state.state:new(players.pros, self)
+			end
+			self.can_shoot = false
+		else
+			self.can_shoot = true
 		end
 
 		self:update_phys()
