@@ -5,8 +5,8 @@ function gfx.init(dim)
 	lg.setLineStyle("rough")
 
 	gfx.res = {
-		x = 200,
-		y = 200,
+		x = 500,
+		y = 500,
 	}
 
 	gfx.def = {

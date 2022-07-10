@@ -16,7 +16,8 @@ oopify(game)
 	end
 
 	function c:draw()
-		self.map:draw(0, 0)
+		lg.translate(-math.floor(self.player.x), -math.floor(self.player.y))
+		self.map:draw(1, 0, 200)
 
 		self.player:draw()
 	end

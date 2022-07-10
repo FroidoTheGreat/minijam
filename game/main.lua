@@ -6,8 +6,10 @@ require("bin/settings")
 require("bin/gfx")
 require("bin/state")
 require("bin/game")
+require("bin/editor/edit")
 require("bin/sprites")
 require("bin/animations")
+require("bin/mouse")
 require("bin/tmaps")
 require("bin/maps")
 require("bin/physics")
@@ -29,6 +31,8 @@ function love.draw()
 	gfx.clear()
 
 	state:draw()
+
+	mouse:draw()
 
 	gfx.draw()
 end

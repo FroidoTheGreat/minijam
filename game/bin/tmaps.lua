@@ -28,6 +28,7 @@ end
 		local height = self.map:getHeight() / theight
 		self.width = width
 		self.height = height
+		print(width, height)
 
 		self.tiles = {}
 
