@@ -10,8 +10,8 @@ oopify(obj)
 		self.y = p.y
 		self.z = p.z + 8
 
-		self.str = 4
-		self.dying = 0
+		self.str = p.str
+		self.f = math.min(4, p.str) * 2 - 1
 
 		self.sprite = sprites:new("player attack", {
 			center_x = 0.5,
@@ -20,12 +20,34 @@ oopify(obj)
 
 		local dir = math.atan2(mouse:gety() - p.y + 10, mouse:getx() - p.x)
 
+		local speed = 11
+		local slow_factor = 0.85
+		local radius = 13
+		self.damage = 10
+		if self.str == 1 then
+			speed = 6
+			radius = 7
+			self.damage = 4
+		elseif self.str == 2 then
+			speed = 7
+			radius = 8
+			self.damage = 6
+		elseif self.str == 3 then
+			speed = 9
+			radius = 8.5
+			self.damage = 8
+		elseif self.str == 4 then
+			speed = 10
+			self.damage = 9
+		end
+
 		self:add(pros, {
 			dir = dir,
-			speed = 9,
-			slow_factor = 0.85,
+			speed = speed,
+			slow_factor = slow_factor,
 			ivx = p.vx,
 			ivy = p.vy,
+			radius = radius,
 		})
 	end
 
@@ -33,15 +55,27 @@ oopify(obj)
 		self:update_proj()
 
 		local vel = self.vx^2 + self.vy^2
-		if vel < 0.5^2 then
-			self.destroy = true
-		elseif vel < 0.8^2 then
-			self.dying = 1
+		if vel < 0.8^2 then
+			self:kill()
+		end
+
+		for _, o in ipairs(self:check_list(nil, nil, nil, nil, "enemy")) do
+			self:push(o, 0.08)
+			if o.hurt then
+				o:hurt()
+				self:kill()
+			end
 		end
 	end
 
 	function c:draw()
-		self.sprite:draw(self.str * 2 + self.dying - 1, self.x, self.y - self.z, false, self.dir + math.pi / 2)
+		self.sprite:draw(self.f, self.x, self.y - self.z, false, self.dir + math.pi / 2)
+	end
+
+	function c:kill()
+		if self.dying then return end
+		self.dying = 1
+		self.f = self.f + 1
 	end
 
 

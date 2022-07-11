@@ -47,6 +47,7 @@ spritemans.new = oop.new
 			self.frame_num = self.animation.sprite.frame_num
 			self.default = self.animation.default
 			self.frame = 1
+			self.time = 0
 			self.height = self.animation.height
 			self.width = self.animation.width
 		elseif (not name) or (not self.animations) then

@@ -6,7 +6,9 @@ oopify(physics)
 	local c = physics.class
 
 	function c:load(opt)
-		self.friction = opt.friction
+		self.uses_physics = true
+
+		self.friction = opt.friction or 0.9
 
 		self.vx = 0
 		self.vy = 0

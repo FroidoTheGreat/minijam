@@ -49,34 +49,42 @@ end
 		local maxx = 0
 		local maxy = 0
 
+		self.objects = {}
+
 		local layers = ref.layers
 		for l, layer in ipairs(layers) do
-			self.map[l] = {}
-			for _, chunk in ipairs(layer.chunks) do
-				local i = 0
-				-- to find width and height
-				if chunk.x < minx then
-					minx = chunk.x
-				end
-				if chunk.x + chunk.width > maxx then
-					maxx = chunk.x + chunk.width
-				end
-				if chunk.y < miny then
-					miny = chunk.y
-				end
-				if chunk.y + chunk.width > maxy then
-					maxy = chunk.y + chunk.height
-				end
-				-- collect map data
-				for y = chunk.y, chunk.y + chunk.height do
-					for x = chunk.x, chunk.x + chunk.width do
-						i = i + 1
-						local t = chunk.data[i]
-						if t then
-							self:set(t - 1, l, x, y)
-						end
+			if layer.type == "tilelayer" then
+				self.map[l] = {}
+				for _, chunk in ipairs(layer.chunks) do
+					local i = 0
+					-- to find width and height
+					if chunk.x < minx then
+						minx = chunk.x
 					end
-					i = i - 1
+					if chunk.x + chunk.width > maxx then
+						maxx = chunk.x + chunk.width
+					end
+					if chunk.y < miny then
+						miny = chunk.y
+					end
+					if chunk.y + chunk.width > maxy then
+						maxy = chunk.y + chunk.height
+					end
+					-- collect map data
+					for y = chunk.y, chunk.y + chunk.height do
+						for x = chunk.x, chunk.x + chunk.width do
+							i = i + 1
+							local t = chunk.data[i]
+							if t then
+								self:set(t - 1, l, x, y)
+							end
+						end
+						i = i - 1
+					end
+				end
+			elseif layer.type == "objectgroup" then
+				for _, o in ipairs(layer.objects) do
+					table.insert(self.objects, o)
 				end
 			end
 		end
