@@ -45,17 +45,7 @@ oopify(colliders)
 	end
 
 	function c:box_collide(other)
-		return self:point_collide(other.x - other.col_radx, other.y - other.col_rady -other.col_offy)
-			or self:point_collide(other.x - other.col_radx, other.y + other.col_rady -other.col_offy)
-			or self:point_collide(other.x + other.col_radx, other.y - other.col_rady -other.col_offy)
-			or self:point_collide(other.x + other.col_radx, other.y + other.col_rady -other.col_offy)
-	end
-
-	function c:point_collide(x, y)
-		return x > self.x - self.col_radx
-			and x < self.x + self.col_radx
-			and y < self.y + self.col_rady -self.col_offy
-			and y > self.y - self.col_rady -self.col_offy
+		return true
 	end
 
 	function c:push(other, force)

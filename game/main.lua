@@ -27,6 +27,10 @@ function love.load()
 
 	gfx.init()
 	keys:load("w", "s", "a", "d")
+
+	song = love.audio.newSource("song.wav", "stream")
+	song:setLooping(true)
+	song:play()
 end
 
 function love.update()

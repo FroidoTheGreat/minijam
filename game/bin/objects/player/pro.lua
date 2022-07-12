@@ -5,7 +5,9 @@ oopify(obj)
 	obj.class = {}
 	local c = obj.class
 
-	function c:load(p)
+	function c:load(p, opt)
+		opt = opt or {}
+
 		self.x = p.x
 		self.y = p.y
 		self.z = p.z + 8
@@ -18,12 +20,18 @@ oopify(obj)
 			center_y = 0.5,
 		})
 
-		local dir = math.atan2(mouse:gety() - p.y + 10, mouse:getx() - p.x)
+		local dir = opt.d or math.atan2(mouse:gety() - p.y + 10, mouse:getx() - p.x)
+		if self.str == 5 and not opt.d then
+			opt.d = dir + 0.2
+			state.state:new(game:get("player pro"), p, opt)
+			opt.d = dir - 0.2
+			state.state:new(game:get("player pro"), p, opt)
+		end
 
 		local speed = 11
 		local slow_factor = 0.85
 		local radius = 13
-		self.damage = 10
+		self.damage = 5
 		if self.str == 1 then
 			speed = 6
 			radius = 7
@@ -60,7 +68,7 @@ oopify(obj)
 		end
 
 		for _, o in ipairs(self:check_list(nil, nil, nil, nil, "enemy")) do
-			self:push(o, 0.08)
+			self:push(o, 0.1)
 			if o.hurt then
 				o:hurt()
 				self:kill()

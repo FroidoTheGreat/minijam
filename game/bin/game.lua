@@ -3,6 +3,7 @@ oopify(game)
 
 require("bin/huds")
 require("bin/colliders")
+require("bin/stars")
 
 game.objects = {}
 local g = game.objects
@@ -50,6 +51,8 @@ end
 
 		self.hud = huds:new()
 
+		self.starfield = stars:new(self.map.width * 16, self.map.height * 16)
+
 		camera:load()
 		camera:set_target(self.player)
 	end
@@ -75,6 +78,8 @@ end
 	end
 
 	function c:draw()
+		self.starfield:draw()
+
 		camera:draw()
 
 		self.map:draw(1, 0, 0)

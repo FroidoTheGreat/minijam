@@ -1,6 +1,5 @@
 players = {}
 oopify(players)
-players.pros = require("bin/objects/player/pro")
 
 --class
 	players.class = {}
@@ -13,6 +12,7 @@ players.pros = require("bin/objects/player/pro")
 		})
 		self.sprite:new("player idle", "idle", "idle")
 		self.sprite:new("player hurt", "idle", "hurt")
+		self.sprite:new("player angry", "angry", "angry")
 
 		self.x = 0
 		self.y = 0
@@ -38,7 +38,7 @@ players.pros = require("bin/objects/player/pro")
 			col_off_y = -10,
 		})
 		self:add(colliders, {
-			radx = 6,
+			radx = 7,
 			rady = 7,
 			team = "player",
 			family = "unstuck",
@@ -51,9 +51,7 @@ players.pros = require("bin/objects/player/pro")
 			self.health_timer = self.health_timer + 1
 			if self.health_timer > 80 then
 				self.health_timer = 0
-				self.health = self.health - 1
-				self.sprite:set("hurt")
-				self.sprite.frame = 1
+				self:hurt()
 			end
 		end
 
@@ -78,7 +76,7 @@ players.pros = require("bin/objects/player/pro")
 
 		if mouse:click() then
 			if self.can_shoot then
-				state.state:new(players.pros, self)
+				state.state:new(game:get("player pro"), self)
 			end
 			self.can_shoot = false
 		else
@@ -92,14 +90,28 @@ players.pros = require("bin/objects/player/pro")
 	end
 
 	function c:hurt()
-		self.sprite:set("hurt")
+		if not self.do_countdown then
+			self.sprite:set("hurt")
+		else
+			self.health = self.health - 1
+			--self:ring_attack()
+		end
 		self.sprite.frame = 1
-		if self.str < 5 then
+		if self.str < 4 then
 			self.str = self.str + 1
 		elseif not self.do_countdown then
+			self.str = 5
 			self.do_countdown = true
 			self.health_timer = 0
 			self.health = 5
+			self.sprite:set("angry")
+			self:ring_attack()
+		end
+	end
+
+	function c:ring_attack()
+		for a = 0, 2*math.pi, 0.3 do
+			state.state:new(game:get("player pro"), self, {d=a})
 		end
 	end
 
