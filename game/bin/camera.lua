@@ -6,6 +6,8 @@ function camera:load()
 	self.speed = 9
 	self.target = self
 
+	self.shake_intensity = 0
+
 	self.drawn = false
 end
 
@@ -19,7 +21,16 @@ function camera:update()
 	self.x = self.x + dx / self.speed
 	self.y = self.y + dy / self.speed
 
+	local m = math.max(self.shake_intensity, 0)
+	self.x = self.x + math.random(-m, m)
+	self.y = self.y + math.random(-m, m)
+	self.shake_intensity = self.shake_intensity - 0.5
+
 	self.drawn = false
+end
+
+function camera:shake(m)
+	self.shake_intensity = math.max(self.shake_intensity, m)
 end
 
 function camera:draw()

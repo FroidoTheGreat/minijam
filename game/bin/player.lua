@@ -90,6 +90,7 @@ oopify(players)
 	end
 
 	function c:hurt()
+		camera:shake(6+self.str)
 		if not self.do_countdown then
 			self.sprite:set("hurt")
 		else
@@ -100,6 +101,7 @@ oopify(players)
 		if self.str < 4 then
 			self.str = self.str + 1
 		elseif not self.do_countdown then
+			camera:shake(15)
 			self.str = 5
 			self.do_countdown = true
 			self.health_timer = 0

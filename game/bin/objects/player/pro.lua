@@ -22,9 +22,10 @@ oopify(obj)
 
 		local dir = opt.d or math.atan2(mouse:gety() - p.y + 10, mouse:getx() - p.x)
 		if self.str == 5 and not opt.d then
-			opt.d = dir + 0.2
+			local spread = 0.4
+			opt.d = dir + spread
 			state.state:new(game:get("player pro"), p, opt)
-			opt.d = dir - 0.2
+			opt.d = dir - spread
 			state.state:new(game:get("player pro"), p, opt)
 		end
 
@@ -68,7 +69,7 @@ oopify(obj)
 		end
 
 		for _, o in ipairs(self:check_list(nil, nil, nil, nil, "enemy")) do
-			self:push(o, 0.1)
+			self:push(o, 0.1 + (self.str - 1) / 20)
 			if o.hurt then
 				o:hurt()
 				self:kill()

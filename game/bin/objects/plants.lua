@@ -30,6 +30,7 @@ oopify(obj)
 			family = "unstuck",
 			team = "enemy",
 		})
+		self:add(basics)
 	end
 
 	function c:update()
@@ -56,6 +57,7 @@ oopify(obj)
 	end
 
 	function c:hurt()
+		if self.dying then return end
 		self.hp = self.hp - 1
 		self.sprite:set("hurt")
 		if self.hp < 1 then

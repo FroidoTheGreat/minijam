@@ -59,10 +59,9 @@ end
 
 	function c:update()
 		for _, o in ipairs(self.reg) do
-			o:update()
-		end
-
-		for _, o in ipairs(self.reg) do
+			if (not self.update_active) or self:update_active() then
+				o:update()
+			end
 			if o.destroy then
 				table.remove(self.reg, _)
 			end
