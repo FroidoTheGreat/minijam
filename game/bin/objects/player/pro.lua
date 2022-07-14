@@ -15,6 +15,9 @@ oopify(obj)
 		self.str = p.str
 		self.f = math.min(4, p.str) * 2 - 1
 
+		self.sound = sfx:new("player_shoot")
+		self.sound:play()
+
 		self.sprite = sprites:new("player attack", {
 			center_x = 0.5,
 			center_y = 0.5,
@@ -30,24 +33,24 @@ oopify(obj)
 		end
 
 		local speed = 11
-		local slow_factor = 0.85
+		local slow_factor = 0.9
 		local radius = 13
-		self.damage = 5
+		self.damage = 8
 		if self.str == 1 then
 			speed = 6
 			radius = 7
-			self.damage = 4
+			self.damage = 6
 		elseif self.str == 2 then
 			speed = 7
 			radius = 8
-			self.damage = 6
+			self.damage = 8
 		elseif self.str == 3 then
 			speed = 9
 			radius = 8.5
-			self.damage = 8
+			self.damage = 10
 		elseif self.str == 4 then
 			speed = 10
-			self.damage = 9
+			self.damage = 12
 		end
 
 		self:add(pros, {
@@ -56,7 +59,7 @@ oopify(obj)
 			slow_factor = slow_factor,
 			ivx = p.vx,
 			ivy = p.vy,
-			radius = radius,
+			radius = 7,
 		})
 	end
 
@@ -68,10 +71,12 @@ oopify(obj)
 			self:kill()
 		end
 
+		if self.dying then return end
+
 		for _, o in ipairs(self:check_list(nil, nil, nil, nil, "enemy")) do
 			self:push(o, 0.1 + (self.str - 1) / 20)
 			if o.hurt then
-				o:hurt()
+				o:hurt(self.damage)
 				self:kill()
 			end
 		end
@@ -83,7 +88,7 @@ oopify(obj)
 
 	function c:kill()
 		if self.dying then return end
-		self.dying = 1
+		self.dying = 3
 		self.f = self.f + 1
 	end
 

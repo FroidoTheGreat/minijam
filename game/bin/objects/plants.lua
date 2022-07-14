@@ -5,7 +5,9 @@ oopify(obj)
 	obj.class = {}
 	local c = obj.class
 
-	function c:load(x, y)
+	function c:load(x, y, opt)
+		opt = opt or {}
+
 		self.x = x
 		self.y = y
 
@@ -19,9 +21,14 @@ oopify(obj)
 		self.shoot_timer = 0
 		self.shoot_timeout = 80
 
-		self.hp = 18
+		self.hp = 40
 
 		self.dying = false
+
+		local count = true
+		if opt.count == "0" then
+			count = false
+		end
 
 		self:add(physics, {
 
@@ -31,13 +38,18 @@ oopify(obj)
 			team = "enemy",
 		})
 		self:add(basics)
+		self:add(enemy, {
+			corpse = "enemy2 death",
+			corpse_opacity = 0.7,
+			count = count,
+		})
 	end
 
 	function c:update()
 		if self.dying then
 			self.dying = self.dying - 1
 			if self.dying < 0 then
-				self.destroy = true
+				self:kill()
 			end
 		end
 
@@ -56,9 +68,9 @@ oopify(obj)
 		self.sprite:draw(self.x, self.y)
 	end
 
-	function c:hurt()
+	function c:hurt(d)
 		if self.dying then return end
-		self.hp = self.hp - 1
+		self.hp = self.hp - (d or 1)
 		self.sprite:set("hurt")
 		if self.hp < 1 then
 			self.dying = 7

@@ -5,7 +5,7 @@ oopify(players)
 	players.class = {}
 	local c = players.class
 
-	function c:load()
+	function c:load(x, y)
 		self.sprite = spritemans:new(8, {
 			center_x = 0.5,
 			center_y = 0.9
@@ -14,9 +14,14 @@ oopify(players)
 		self.sprite:new("player hurt", "idle", "hurt")
 		self.sprite:new("player angry", "angry", "angry")
 
-		self.x = 0
-		self.y = 0
+		self.x = x
+		self.y = y
 		self.z = 8
+
+		self.sounds = {
+			hurt = sfx:new("player_hurt"),
+			anger = sfx:new("player_anger")
+		}
 
 		self.str = 1
 		self.str_timer = 0
@@ -44,6 +49,9 @@ oopify(players)
 			family = "unstuck",
 			--offy = 5,
 		})
+
+		camera:set(self.x, self.y)
+		camera:set_target(self)
 	end
 
 	function c:update()
@@ -90,17 +98,21 @@ oopify(players)
 	end
 
 	function c:hurt()
+		self.sounds.hurt:play()
 		camera:shake(6+self.str)
 		if not self.do_countdown then
 			self.sprite:set("hurt")
 		else
 			self.health = self.health - 1
-			--self:ring_attack()
+			if self.health < 1 then
+				state.state:fail_level()
+			end
 		end
 		self.sprite.frame = 1
 		if self.str < 4 then
 			self.str = self.str + 1
 		elseif not self.do_countdown then
+			self.sounds.anger:play()
 			camera:shake(15)
 			self.str = 5
 			self.do_countdown = true

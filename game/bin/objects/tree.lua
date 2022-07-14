@@ -20,8 +20,8 @@ oopify(obj)
 		self:add(colliders, {
 			team = "neutral",
 			radx = 7,
-			rady = 7,
-			offy = 3,
+			rady = 5,
+			offy = 0,
 			family = "stuck",
 		})
 	end

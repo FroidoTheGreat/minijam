@@ -18,7 +18,7 @@ oopify(obj)
 
 	function c:update()
 		if not self.player then
-			self.player = state.state.player
+			self.player = state:get().player
 		end
 		if not self.player.do_countdown then
 			self.f1 = self.player.str
@@ -34,8 +34,8 @@ oopify(obj)
 
 	function c:draw()
 		local x = 10
-		self.sprite:draw(self.f1, x, 5)
-		self.icon:draw(self.f2, x - 8, 5)
+		self.sprite:draw(self.f1 or 1, x, 5)
+		self.icon:draw(self.f2 or 1, x - 8, 5)
 	end
 
 return obj

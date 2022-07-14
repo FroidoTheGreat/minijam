@@ -5,11 +5,16 @@ oopify(obj)
 	obj.class = {}
 	local c = obj.class
 
-	function c:load(plant)
-		self.plant = plant
-		self.x = plant.x
-		self.y = plant.y
+	function c:load(ref, opt)
+		opt = opt or {}
+
+		self.ref = ref
+		self.x = ref.x
+		self.y = ref.y
 		self.z = 20
+
+		self.sound = sfx:new("enemy_shoot")
+		self.sound:play(1, self.x, self.y)
 
 		self.sprite = spritemans:new(8, {
 			center_x = 0.5,
@@ -20,10 +25,10 @@ oopify(obj)
 
 		local p = state.state.player
 		self:add(pros, {
-			dir = math.atan2(p.y - self.y, p.x - self.x),
+			dir = opt.d or math.atan2(p.y - self.y, p.x - self.x),
 			speed = 2,
-			life = 80,
-			radius = 5,
+			life = 100,
+			radius = 6,
 		})
 	end
 

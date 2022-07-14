@@ -4,6 +4,7 @@ oopify(game)
 require("bin/huds")
 require("bin/colliders")
 require("bin/stars")
+require("bin/enemy")
 
 game.objects = {}
 local g = game.objects
@@ -39,27 +40,33 @@ end
 	local c = game.class
 
 	function c:load(opt)
+		game.game = self
+
 		self.reg = {}
 
-		self.player = players:new(0, 0)
-		self:regr(self.player)
-		--self:new(game.objects.plants, 16, 16)
-		--self:new(game.objects.bugs, -16, 16)
+		self.enemy_count = 0
+		self.enemy_total = 0
 
-		self.map = maps:new(tmaps.maps.tileset, 20, 20)
+		self.level = opt.level or 1
+
+		camera:load()
+
+		self.map = maps:new(tmaps.maps.tileset, 20, 20, tostring(self.level))
 		self:resolve_objects()
+
+		self.player = players:new(self.player_start_x or 0, self.player_start_y or 0)
+		self:regr(self.player)
 
 		self.hud = huds:new()
 
 		self.starfield = stars:new(self.map.width * 16, self.map.height * 16)
 
-		camera:load()
-		camera:set_target(self.player)
+		game.game = nil
 	end
 
 	function c:update()
 		for _, o in ipairs(self.reg) do
-			if (not self.update_active) or self:update_active() then
+			if o.update and ((not self.update_active) or self:update_active()) then
 				o:update()
 			end
 			if o.destroy then
@@ -68,12 +75,34 @@ end
 		end
 
 		table.sort(self.reg, function(o1, o2)
-			return o2.y > o1.y
+			if o1.draw_layer ~= o2.draw_layer then
+				return (o1.draw_layer or 1) < (o2.draw_layer or 1)
+			else
+				return o2.y > o1.y
+			end
 		end)
 
 		self.hud:update()
 
 		camera:update()
+
+		if self.destroy then
+			if self.next == level_transition then
+				state:set(level_transition, self.level)
+			else
+				state:set(fail_transition, self.level)
+			end
+		end
+	end
+
+	function c:next_level()
+		self.destroy = true
+		self.next = level_transition
+	end
+
+	function c:fail_level()
+		self.destroy = true
+		self.next = fail_transition
 	end
 
 	function c:draw()
@@ -112,10 +141,12 @@ end
 		if o.name == "tree" then
 			local obj = game.objects.tree
 			self:new(obj, x, y, math.ceil(math.random(1,2)))
+		elseif o.name == "player_start" then
+			self.player_start_x = x
+			self.player_start_y = y
 		else
-			print("name: ", o.name)
 			local obj = game:get(o.name)
-			self:new(obj, x, y)
+			self:new(obj, x, y, o.properties)
 		end
 	end
 
@@ -124,5 +155,8 @@ end
 	end
 
 	function c:new(typ, ...)
+		if type(typ) == "string" then
+			typ = game:get(typ)
+		end
 		self:regr(typ:new(...))
 	end

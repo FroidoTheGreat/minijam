@@ -6,7 +6,6 @@ require("bin/settings")
 require("bin/colors")
 require("bin/gfx")
 require("bin/state")
-require("bin/game")
 require("bin/editor/edit")
 require("bin/basics")
 love.graphics.setDefaultFilter("nearest", "nearest")
@@ -20,17 +19,19 @@ require("bin/player")
 require("bin/keys")
 require("bin/camera")
 require("bin/pro")
+require("bin/sfx")
 
 math.randomseed(os.time())
 
 function love.load()
-	state:set(game)
+	state:set(level_transition, 0)
 
 	gfx.init()
 	keys:load("w", "s", "a", "d")
 
 	song = love.audio.newSource("song.wav", "stream")
 	song:setLooping(true)
+	song:setVolume(0.6)
 	song:play()
 end
 

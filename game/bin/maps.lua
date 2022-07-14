@@ -30,10 +30,10 @@ end
 	maps.class = {}
 	local c = maps.class
 
-	function c:load(tmap, w, h)
+	function c:load(tmap, w, h, map)
 		self.tmap = tmap
 
-		self:load_map("1")
+		self:load_map(map or 1)
 	end
 
 	function c:load_map(name)

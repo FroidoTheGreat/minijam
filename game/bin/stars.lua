@@ -31,7 +31,7 @@ oopify(stars)
 
 	function c:draw()
 		for _, o in ipairs(self.stars) do
-			lg.setColor(1,1,1,(1 - o.z)/5)
+			lg.setColor(1,1,1,(1 - o.z)/4)
 			self.sprite:draw(o.f, o.x - camera.x*o.z, o.y - camera.y*o.z)
 		end
 		lg.setColor(1,1,1,1)

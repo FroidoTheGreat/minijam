@@ -15,11 +15,18 @@ function camera:set_target(target)
 	self.target = target
 end
 
+function camera:set(x, y)
+	self.x = x - gfx.res.x / 2
+	self.y = y - gfx.res.y / 2
+end
+
 function camera:update()
 	local dx = self.target.x - self.x - gfx.res.x / 2
 	local dy = self.target.y - self.y - gfx.res.y / 2
-	self.x = self.x + dx / self.speed
-	self.y = self.y + dy / self.speed
+	if (dx^2 + dy^2) > 9 then
+		self.x = self.x + dx / self.speed
+		self.y = self.y + dy / self.speed
+	end
 
 	local m = math.max(self.shake_intensity, 0)
 	self.x = self.x + math.random(-m, m)

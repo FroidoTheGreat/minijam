@@ -20,6 +20,13 @@ oopify(physics)
 
 		self.col_t_x = 2
 		self.col_t_y = 0
+
+		self.wall_touches = {
+			right = false,
+			left = false,
+			top = false,
+			bottom = false,
+		}
 	end
 
 	function c:update_phys()
@@ -28,6 +35,12 @@ oopify(physics)
 
 		local tile, cx, cy = state.state.map:pos_get(1, self.x + self.vx, self.y)
 
+		self.wall_touches = {
+			right = false,
+			left = false,
+			top = false,
+			bottom = false,
+		}
 		if not self.last_tx then
 			self.last_tx = cx
 			self.last_ty = cy
@@ -39,10 +52,12 @@ oopify(physics)
 			self.col_t_y = cy
 			if cx < self.last_tx then
 				self.vx = 0
+				self.wall_touches.left = true
 				self.x = cx * state.state.map.tmap.twidth + 0.1
 			elseif cx > self.last_tx then
 				self.vx = 0
 				self.x = self.last_tx * state.state.map.tmap.twidth - 0.1
+				self.wall_touches.right = true
 			end
 		else
 			self.last_tx = cx
@@ -57,9 +72,11 @@ oopify(physics)
 			if cy < self.last_ty then
 				self.vy = 0
 				self.y = cy * state.state.map.tmap.twidth + 0.1
+				self.wall_touches.top = true
 			elseif cy > self.last_ty then
 				self.vy = 0
 				self.y = self.last_ty * state.state.map.tmap.twidth - 0.1
+				self.wall_touches.bottom = true
 			end
 		else
 			self.last_ty = cy
